@@ -34,7 +34,8 @@ private readonly IMediator _mediator;
 
             await _daprClient.SaveStateAsync(storeName, request.user.id.ToString(), request.user);
 
-            await _mediator.Publish(new UserCreatedEvent(request.user)).ConfigureAwait(false);
+            await _daprClient.PublishEventAsync("pubsub", "userCreated", request.user);
+//            await _mediator.Publish(new UserCreatedEvent(request.user)).ConfigureAwait(false);
 
             return request.user;
         }

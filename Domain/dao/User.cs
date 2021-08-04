@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Domain.dao
 {
@@ -9,11 +10,12 @@ namespace Domain.dao
         public String userName { get; set; }
         public String password { get; set; }
 
-        public IEnumerable<Address> addresses { get; set; }
-        public IEnumerable<Email> emails { get; set; }
+        public List<Address> addresses { get; set; }
+        public List<Email> emails { get; set; }
+        
+        [JsonConstructor]
         public User()
         {
-
         }
     }
 }

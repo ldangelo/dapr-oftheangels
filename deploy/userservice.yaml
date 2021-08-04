@@ -1,0 +1,38 @@
+kind: apiVersion: v1
+kind: Service
+metadata:
+  name: userserviceapp
+spec:
+  selector:
+    app: userservice
+  ports:
+  - port: 80
+    targetPort: 5000
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userserviceapp
+spec:
+  selector:
+    matchLabels:
+      app: userserviceapp
+  template:
+    metadata:
+      labels:
+        app: userserviceapp
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "userserviceapp"
+        dapr.io/app-port: "5000"
+    spec:
+      containers:
+      - name: userserviceapp
+        image: userservice
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        imagePullPolicyt: Always

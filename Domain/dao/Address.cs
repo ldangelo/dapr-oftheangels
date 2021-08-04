@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Domain.dao
 {
@@ -16,5 +17,10 @@ namespace Domain.dao
         public string city { get; set; }
         public string state { get; set; }
         public string postalCode { get; set; }
+
+        [JsonConstructor]
+        public Address()
+        {
+        }
     }
 }

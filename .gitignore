@@ -1,2 +1,4 @@
 bin/
 obj/
+/userservice/userservice
+/userservice/warp-packer

@@ -32,7 +32,7 @@ namespace userservice
             services.AddDaprClient(builder => builder
                 .UseHttpEndpoint($"http://localhost:{daprHttpPort}")
                 .UseGrpcEndpoint($"http://localhost:{daprGrpcPort}"));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "userservice", Version = "v1" });

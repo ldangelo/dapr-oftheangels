@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +15,10 @@ namespace Projector.Controllers
     [Route("[controller]")]
     public class UserProjectionController : Controller
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<UserProjectionController> _logger;
         private readonly DaprClient _dapr;
         private readonly UserContext _context;
-        public UserProjectionController(ILogger logger, DaprClient dapr, UserContext context)
+        public UserProjectionController(ILogger<UserProjectionController> logger, DaprClient dapr, UserContext context)
         {
             _logger = logger;
             _dapr = dapr;
@@ -24,12 +26,30 @@ namespace Projector.Controllers
         }
         
         [Topic("pubsub", "userCreated")]
-        public async Task<int> ProjectUser(UserCreatedEvent e)
+        [HttpPost("/newUser")]
+        public async Task<int> ProjectUser(User user)
         {
-            _logger.LogInformation(@"Projecting user with {id}",e.user);
-            var user = e.user;
-            _context.Add(user);
-            return await _context.SaveChangesAsync();
+            try
+            {
+                _logger.LogDebug(@"Projecting user with {id}", user);
+                var id = user.id;
+                if (_context.Users.Any(e => e.id == id))
+                {
+                    _context.Users.Attach(user);
+                }
+                else
+                {
+                    _context.Add(user);
+                }
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+                _logger.LogError(ex.InnerException.Message);
+                return -1;
+            }
         }
     }
 }

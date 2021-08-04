@@ -31,7 +31,7 @@
             ],
             "options": {
                 "cwd": "${workspaceFolder}/userservice"
-            }
+            },
             "group": "run",
             "presentation": {
                 "reveal": "silent",
