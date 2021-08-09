@@ -13,5 +13,5 @@ workflows:
     jobs:
       - docker/publish:
           docker-context: .
-          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+          image: ldangelo/userservice
           path: userservice
