@@ -14,5 +14,4 @@ workflows:
       - docker/publish:
           docker-context: .
           image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-          updage-description: true
           path: userservice
