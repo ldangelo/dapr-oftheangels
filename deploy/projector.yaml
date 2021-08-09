@@ -7,5 +7,32 @@ spec:
     app: projector
   ports:
   - port: 80
-    targetPort: 5004
+    targetPort: 80
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectorapp
+spec:
+  selector:
+    matchLabels:
+      app: projectorapp
+  template:
+    metadata:
+      labels:
+        app: projectorapp
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "projectorapp"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+      - name: projectorapp
+        image: ldangelo/projector:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
