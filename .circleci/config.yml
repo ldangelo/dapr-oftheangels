@@ -15,3 +15,7 @@ workflows:
           docker-context: .
           image: ldangelo/userservice
           path: userservice
+      - docker/publish:
+          docker-context: .
+          image: ldangelo/projector
+          path: Projector
